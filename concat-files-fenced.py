@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """
 Concatenate text files recursively with syntax highlighting fences.
+
+usage:
+
+python3 nesl-test/concat-files-fenced.py /Users/stuart/repos/nesl-lang/nesl-test/tests/cases nesl-test/concatenated-test-cases.md
 """
 
 import argparse
@@ -45,7 +49,8 @@ def process_file(file_path: Path, output_file, input_dir: Path, separator: str) 
     if is_binary_file(file_path):
         return False
     
-    rel_path = file_path.relative_to(input_dir).as_posix()
+    rel_path = file_path.relative_to(Path.cwd()).as_posix()
+
     extension = file_path.suffix[1:] if file_path.suffix else 'txt'
     
     try:
@@ -86,7 +91,8 @@ def main():
     
     args = parser.parse_args()
     
-    input_dir = Path(args.input_dir).resolve()
+    # input_dir = Path(args.input_dir).resolve()    # https://claude.ai/chat/437db461-bcef-4e45-b8d1-5f49602a9aa9
+    input_dir = Path(args.input_dir)
     output_file = Path(args.output_file).resolve()
     
     # Validate paths
